@@ -8,22 +8,26 @@ const options = {
     index: "index.html"
 };
 
+const usePath = function (directory) {
+    app.use(directory, express.static(__dirname + directory));
+};
+
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-
 app.use('/', express.static('/', options));
-app.use("/node_modules", express.static(__dirname + '/node_modules'));
-app.use("/fonts/roboto", express.static(__dirname + '/fonts/roboto'));
 
-app.use('/dist', express.static(__dirname + '/dist'));
-
+usePath("/node_modules");
+usePath("/fonts/roboto");
+usePath("/js");
+usePath("/styles");
 
 app.get('/', (request, response) => {
-    response.sendfile('index.html');
+    response.sendfile('html/index.html');
 });
 
 app.get('/measuring.html', (request, response) => {
-    response.sendfile('measuring.html');
+    response.sendfile('html/measuring.html');
 });
 
 var server = app.listen(port, function () {
